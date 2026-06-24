@@ -57,7 +57,7 @@ class Dvd extends Soporte {
         this.porcentajeRecargo = porcentajeRecargo;
         this.idiomas = idiomas;
     }
-    
+    @Override
     public double calcularCostoAlquiler() {
         this.costoAlquiler = super.calcularCostoAlquiler() + (this.costoAlquiler * (this.porcentajeRecargo / 100));
         return this.costoAlquiler;
