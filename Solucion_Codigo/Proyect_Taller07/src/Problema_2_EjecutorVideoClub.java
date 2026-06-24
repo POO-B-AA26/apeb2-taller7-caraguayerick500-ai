@@ -90,11 +90,11 @@ public class Problema_2_EjecutorVideoClub {
         Dvd dvd1 = new Dvd(10, idiomas, peli, 2, 10);
         dvd1.calcularCostoAlquiler();
         
-        
         System.out.println(dvd1);
         
         Vhs vhs1 = new Vhs(idiomas[0], peli, 2, 10);
         vhs1.calcularCostoAlquiler();
+        
         System.out.println(vhs1);
     }
 }
