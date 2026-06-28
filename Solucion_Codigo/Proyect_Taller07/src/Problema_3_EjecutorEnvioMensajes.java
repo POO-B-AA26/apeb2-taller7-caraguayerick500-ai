@@ -1,4 +1,3 @@
-
 /**
  * Problema03: Implemente un sistema de envío de mensajes a móviles. Existen dos tipos de mensajes 
  * que se pueden enviar entre móviles, mensajes de texto (SMS) y mensajes que contienen imágenes (MMS).
@@ -12,23 +11,22 @@
  * @author Erick Caraguay
  * @version 1.0
  */
+
 class Movil {
     private String numeroMovil;
     private String nombre;
 
-    // Constructor solo con número - nombre es opcional
+    // Constructor solo con número
     public Movil(String numeroMovil) {
         this.numeroMovil = numeroMovil;
         this.nombre      = "Sin nombre";
     }
-
     // Constructor con número y nombre
     public Movil(String numeroMovil, String nombre) {
         this.numeroMovil = numeroMovil;
         this.nombre      = nombre;
     }
-
-    // Getters necesarios para que Mensaje acceda a los datos
+    
     public String getNumeroMovil() { return numeroMovil; }
     public String getNombre()      { return nombre; }
 
@@ -38,23 +36,21 @@ class Movil {
     }
 }
 
-abstract class Mensaje {
+class Mensaje {
     private Movil remitente;
     private Movil destinatario;
 
-    // Constructor parametrizado
     public Mensaje(Movil remitente,Movil destinatario) {
         this.remitente    = remitente;
         this.destinatario = destinatario;
     }
 
-    // Getters necesarios para que SMS y MMS accedan
     public Movil getRemitente()    { return remitente; }
     public Movil getDestinatario() { return destinatario; }
 
     // Métodos abstractos que cada subclase implementa
-    public abstract void enviarMensaje();
-    public abstract void visualizarMensaje();
+    public void enviarMensaje() { }
+    public void visualizarMensaje(){ }
 
     @Override
     public String toString() {
@@ -66,7 +62,6 @@ abstract class Mensaje {
 class Sms extends Mensaje{
     private String texto;
 
-    // Constructor
     public Sms(Movil remitente, Movil destinatario, String texto) {
         super(remitente, destinatario);
         this.texto = texto;
@@ -75,7 +70,6 @@ class Sms extends Mensaje{
     @Override
     public void enviarMensaje() {
         System.out.println("[SMS enviado]");
-        System.out.println(this.toString());
     }
 
     @Override
@@ -94,18 +88,16 @@ class Sms extends Mensaje{
 }
 
 class Mms extends Mensaje{
-    private String nombreFichero;
+    private String nombreFicha;
 
-    // Constructor
-    public Mms(Movil remitente, Movil destinatario, String nombreFichero) {
+    public Mms(Movil remitente, Movil destinatario, String nombreFicha) {
         super(remitente, destinatario);
-        this.nombreFichero = nombreFichero;
+        this.nombreFicha = nombreFicha;
     }
 
     @Override
     public void enviarMensaje() {
         System.out.println("[MMS enviado]");
-        System.out.println(this.toString());
     }
 
     @Override
@@ -118,53 +110,46 @@ class Mms extends Mensaje{
     public String toString() {
         return  "=== MMS ==="
             + "\n" + super.toString()
-            + "\n  Imagen : " + nombreFichero
+            + "\n  Imagen : " + nombreFicha
             + "\n===========";
     }
 }
 
 public class Problema_3_EjecutorEnvioMensajes {
     public static void main(String[] args) {
-        // Crear móviles - constructor solo con número
+        // Crear móviles con constructor solo con número
         Movil movil1 = new Movil("0991234567");
         Movil movil2 = new Movil("0987654321");
+        // Crear móviles con constructor con número ynombre
+        Movil movil3 = new Movil("0912345678", "Ferran Torres");
+        Movil movil4 = new Movil("0923456789", "Gilberto Mora");
 
-        // Crear móviles - constructor con nombre
-        Movil movil3 = new Movil("0912345678", "Ana Torres");
-        Movil movil4 = new Movil("0923456789", "Luis Mora");
-
-        // SMS entre móviles sin nombre
-        Sms sms1 = new Sms(movil1, movil2,"Hola, ¿cómo estás?");
-
-        // SMS entre móviles con nombre
+        // SMS sin nombre
+        Sms sms1 = new Sms(movil1, movil2,"Hola, que tal?");
+        // SMS con nombre
         Sms sms2 = new Sms(movil3, movil4, "Nos vemos a las 5pm");
 
-        // MMS entre móviles con nombre
+        // MMS con nombre
         Mms mms1 = new Mms(movil3, movil4, "foto_vacaciones.jpg");
+        // MMS sin nombre
+        Mms mms2 = new Mms(movil1, movil2, "doc_importante.png");
 
-        // MMS entre móviles sin nombre
-        Mms mms2 = new Mms(movil1, movil2, "documento_importante.png");
-
-        // Enviar y visualizar mensajes
         System.out.println("Sistema de Mensajeria Movil");
-        System.out.println("===========================");
+        System.out.println("===========================\n");
 
         sms1.enviarMensaje();
         System.out.println();
         sms1.visualizarMensaje();
-
         System.out.println();
 
         sms2.enviarMensaje();
         System.out.println();
         sms2.visualizarMensaje();
-
         System.out.println();
 
         mms1.enviarMensaje();
         System.out.println();
         mms1.visualizarMensaje();
-
         System.out.println();
 
         mms2.enviarMensaje();
@@ -174,6 +159,45 @@ public class Problema_3_EjecutorEnvioMensajes {
 }
 
 /**
- * run: 
+ *  run:
+    Sistema de Mensajeria Movil
+    ===========================
+
+    [SMS enviado]
+
+    [Visualizando SMS]
+    === SMS ===
+      De   : Sin nombre (0991234567)
+      Para  : Sin nombre (0987654321)
+      Texto : Hola, que tal?
+    ===========
+
+    [SMS enviado]
+
+    [Visualizando SMS]
+    === SMS ===
+      De   : Ferran Torres (0912345678)
+      Para  : Gilberto Mora (0923456789)
+      Texto : Nos vemos a las 5pm
+    ===========
+
+    [MMS enviado]
+
+    [Visualizando MMS]
+    === MMS ===
+      De   : Ferran Torres (0912345678)
+      Para  : Gilberto Mora (0923456789)
+      Imagen : foto_vacaciones.jpg
+    ===========
+
+    [MMS enviado]
+
+    [Visualizando MMS]
+    === MMS ===
+      De   : Sin nombre (0991234567)
+      Para  : Sin nombre (0987654321)
+      Imagen : doc_importante.png
+    ===========
+    BUILD SUCCESSFUL (total time: 0 seconds)
  * 
  */
